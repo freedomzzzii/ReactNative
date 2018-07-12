@@ -11,6 +11,7 @@ const theme = StyleSheet.create({
     color: '#1a1a1a',
     fontSize: 30,
     fontWeight: 'bold',
+    textAlign: 'center'
   }
 });
 

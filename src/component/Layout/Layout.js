@@ -16,7 +16,7 @@ export class Layout1 extends Component {
     return(
       <View style={theme.style1}>
         <View style={layout.flex1}>
-          <Image style={layout.logo} source={require('../../assets/logo.png')} />
+          <Image resizeMode="contain" style={layout.logo} source={require('../../assets/logo.png')} />
         </View>
         {this.props.children}
       </View>
