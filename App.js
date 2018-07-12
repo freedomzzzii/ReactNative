@@ -3,11 +3,10 @@ import { Button, Text, View, AsyncStorage } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { StackNavigator, createBottomTabNavigator } from 'react-navigation';
 
-import Tutorial from './src/component/Tutorial/Tutorial';
+import Tutorial from './src/screens/Tutorial/Tutorial';
 
 class HomeScreen extends Component {
   render() {
-    console.log('home>>>');
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Home!</Text>
@@ -48,10 +47,6 @@ class DetailsScreen extends Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    check();
-  }
-
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -60,6 +55,16 @@ class DetailsScreen extends Component {
     );
   }
 }
+
+const HomeStack = StackNavigator({
+  Home: { screen: HomeScreen },
+  Details: { screen: DetailsScreen },
+});
+
+const SettingsStack = StackNavigator({
+  Settings: { screen: SettingsScreen },
+  Details: { screen: DetailsScreen },
+});
 
 class App extends Component {
   constructor(props) {
@@ -74,7 +79,6 @@ class App extends Component {
   }
 
   handleFirstTime = async () => {
-    console.log('handleFirstTime>>>', await AsyncStorage.getItem('hasLaunched'));
     return await AsyncStorage.getItem('hasLaunched');
   }
 
@@ -113,15 +117,5 @@ class App extends Component {
     );
   }
 }
-
-const HomeStack = StackNavigator({
-  Home: { screen: HomeScreen },
-  Details: { screen: DetailsScreen },
-});
-
-const SettingsStack = StackNavigator({
-  Settings: { screen: SettingsScreen },
-  Details: { screen: DetailsScreen },
-});
 
 export default App;
