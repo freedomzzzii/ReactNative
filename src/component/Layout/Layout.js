@@ -15,11 +15,8 @@ export class Layout1 extends Component {
   render() {
     return(
       <View style={theme.style1}>
-        <View>
+        <View style={layout.flex1}>
           <Image style={layout.logo} source={require('../../assets/logo.png')} />
-          {/* <Text style={theme.text1}>
-            ddd
-          </Text> */}
         </View>
         {this.props.children}
       </View>

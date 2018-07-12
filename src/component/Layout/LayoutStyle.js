@@ -7,7 +7,7 @@ const layout = StyleSheet.create({
   logo: {
     width: 50,
     height: 50,
-    margin: 30,
+    marginTop: 20,
   },
 });
 
