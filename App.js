@@ -1,10 +1,13 @@
-import React from 'react';
-import { Button, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { Button, Text, View, AsyncStorage } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { StackNavigator, createBottomTabNavigator } from 'react-navigation';
 
-class HomeScreen extends React.Component {
+import Tutorial from './src/component/Tutorial/Tutorial';
+
+class HomeScreen extends Component {
   render() {
+    console.log('home>>>');
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Home!</Text>
@@ -39,12 +42,74 @@ class SettingsScreen extends React.Component {
   }
 }
 
-class DetailsScreen extends React.Component {
+class DetailsScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  componentDidMount() {
+    check();
+  }
+
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Details!</Text>
       </View>
+    );
+  }
+}
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstTime: true,
+    };
+  }
+
+  componentDidMount() {
+    this.setState({ firstTime: this.handleFirstTime() });
+  }
+
+  handleFirstTime = async () => {
+    console.log('handleFirstTime>>>', await AsyncStorage.getItem('hasLaunched'));
+    return await AsyncStorage.getItem('hasLaunched');
+  }
+
+  render() {
+    const { firstTime } = this.state;
+
+    if (firstTime) {
+      return(<Tutorial />);
+    }
+
+    return createBottomTabNavigator(
+      {
+        Home: { screen: HomeStack },
+        Settings: { screen: SettingsStack },
+        Tutorial,
+      },
+      {
+        navigationOptions: ({ navigation }) => ({
+          tabBarIcon: ({ focused, tintColor }) => {
+            const { routeName } = navigation.state;
+            let iconName;
+            if (routeName === 'Home') {
+              iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+            } else if (routeName === 'Settings') {
+              iconName = `ios-options${focused ? '' : '-outline'}`;
+            }
+            
+            return <Icon name={iconName} size={25} color={tintColor} />;
+          },
+        }),
+        tabBarOptions: {
+          activeTintColor: 'tomato',
+          inactiveTintColor: 'gray',
+        },
+      }
     );
   }
 }
@@ -59,28 +124,4 @@ const SettingsStack = StackNavigator({
   Details: { screen: DetailsScreen },
 });
 
-export default createBottomTabNavigator(
-  {
-    Home: { screen: HomeStack },
-    Settings: { screen: SettingsStack },
-  },
-  {
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        if (routeName === 'Home') {
-          iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-        } else if (routeName === 'Settings') {
-          iconName = `ios-options${focused ? '' : '-outline'}`;
-        }
-        
-        return <Icon name={iconName} size={25} color={tintColor} />;
-      },
-    }),
-    tabBarOptions: {
-      activeTintColor: 'tomato',
-      inactiveTintColor: 'gray',
-    },
-  }
-);
+export default App;
