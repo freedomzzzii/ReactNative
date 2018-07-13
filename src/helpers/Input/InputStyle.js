@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const inputIcon = StyleSheet.create({
+const input = StyleSheet.create({
   icon: {
     color: '#ced4da',
   },
@@ -11,4 +11,4 @@ const inputIcon = StyleSheet.create({
   },
 });
 
-export default inputIcon;
+export default input;

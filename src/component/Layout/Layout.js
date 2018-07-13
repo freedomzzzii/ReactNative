@@ -4,8 +4,6 @@ import { View, Text, Image } from 'react-native';
 import theme from '../../../_theme';
 import layout from './LayoutStyle';
 
-const logo = '../../assets/logo.png'
-
 export class Layout1 extends Component {
   constructor(props) {
     super(props);

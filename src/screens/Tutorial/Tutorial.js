@@ -7,7 +7,7 @@ import tutorial from './TutorialStyle';
 import theme from '../../../_theme';
 
 import { Layout1 } from '../../component/Layout/Layout';
-import InputIcon from '../../helpers/InputIcon/InputIcon';
+import { InputIcon } from '../../helpers/Input/Input';
 
 const Tutorial1 = () => (
   <Layout1>
@@ -72,10 +72,16 @@ const Tutorial4 = () => (
 
 class Login extends Component {
   render() {
-    const settings = {
+    const settingsIDCard = {
       iconName: 'ios-person',
       iconSize: 25,
       placeholder: 'เลขบัตรประชาชน',
+    };
+
+    const settingsPhone = {
+      iconName: 'ios-call',
+      iconSize: 25,
+      placeholder: 'หมายเลขโทรศัพท์',
     };
 
     return(
@@ -84,7 +90,12 @@ class Login extends Component {
           <Text style={theme.text2}>
             เข้าสู่ระบบ
           </Text>
-          <InputIcon settings={settings} />
+          <View style={tutorial.input}>
+            <InputIcon settings={settingsIDCard} />
+          </View>
+          <View style={tutorial.input}>
+            <InputIcon settings={settingsPhone} />
+          </View>
         </View>
       </Layout1>
     );

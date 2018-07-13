@@ -4,9 +4,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import PropTypes from 'prop-types';
 
 import theme from '../../../_theme';
-import inputIcon from './InputIconStyle';
+import input from './InputStyle';
 
-export default class InputIcon extends Component {
+export class InputIcon extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -23,8 +23,8 @@ export default class InputIcon extends Component {
 
     return(
       <View style={theme.inputIcon}>
-        <Icon name={iconName} size={iconSize} style={inputIcon.icon} />
-        <TextInput style={inputIcon.input} placeholder={placeholder} />
+        <Icon name={iconName} size={iconSize} style={input.icon} />
+        <TextInput style={input.input} placeholder={placeholder} />
       </View>
     );
   }

@@ -20,6 +20,10 @@ const tutorial = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 30,
   },
+  input: {
+    marginTop: 15,
+    flex: 1,
+  },
 });
 
 export default tutorial;

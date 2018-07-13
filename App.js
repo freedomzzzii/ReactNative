@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Text, View, AsyncStorage } from 'react-native';
+import { Button, Text, View, AsyncStorage, AppState } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { StackNavigator, createBottomTabNavigator } from 'react-navigation';
 
@@ -71,11 +71,25 @@ class App extends Component {
     super(props);
     this.state = {
       firstTime: true,
+      appState: AppState.currentState,
     };
   }
 
   componentDidMount() {
     this.setState({ firstTime: this.handleFirstTime() });
+    AppState.addEventListener('change', this._handleAppStateChange);
+  }
+
+  componentWillUnmount() {
+    console.log('unmount>>>>')
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      console.log('App has come to the foreground!')
+    }
+    this.setState({appState: nextAppState});
   }
 
   handleFirstTime = async () => {
@@ -84,7 +98,7 @@ class App extends Component {
 
   render() {
     const { firstTime } = this.state;
-
+    console.log(this.state.appState)
     if (firstTime) {
       return(<Tutorial />);
     }
