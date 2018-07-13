@@ -33,6 +33,7 @@ const theme = StyleSheet.create({
     flex: 1,
     width: '100%',
     flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 5,
   },
 });
