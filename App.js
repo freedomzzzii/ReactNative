@@ -66,6 +66,32 @@ const SettingsStack = StackNavigator({
   Details: { screen: DetailsScreen },
 });
 
+const RootNavigator = createBottomTabNavigator(
+  {
+    Home: { screen: HomeStack },
+    Settings: { screen: SettingsStack },
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === 'Home') {
+          iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+        } else if (routeName === 'Settings') {
+          iconName = `ios-options${focused ? '' : '-outline'}`;
+        }
+        
+        return <Icon name={iconName} size={25} color={tintColor} />;
+      },
+    }),
+    tabBarOptions: {
+      activeTintColor: 'tomato',
+      inactiveTintColor: 'gray',
+    },
+  }
+);
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -81,7 +107,6 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-    console.log('unmount>>>>')
     AppState.removeEventListener('change', this._handleAppStateChange);
   }
 
@@ -93,42 +118,18 @@ class App extends Component {
   }
 
   handleFirstTime = async () => {
-    return await AsyncStorage.getItem('hasLaunched');
+    return await AsyncStorage.getItem('fistTime');
   }
 
   render() {
     const { firstTime } = this.state;
-    console.log(this.state.appState)
-    if (firstTime) {
+    console.log('firstTime>>>', firstTime);
+    console.log('appState>>>', this.state.appState)
+    if (!firstTime) {
       return(<Tutorial />);
     }
 
-    return createBottomTabNavigator(
-      {
-        Home: { screen: HomeStack },
-        Settings: { screen: SettingsStack },
-        Tutorial,
-      },
-      {
-        navigationOptions: ({ navigation }) => ({
-          tabBarIcon: ({ focused, tintColor }) => {
-            const { routeName } = navigation.state;
-            let iconName;
-            if (routeName === 'Home') {
-              iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-            } else if (routeName === 'Settings') {
-              iconName = `ios-options${focused ? '' : '-outline'}`;
-            }
-            
-            return <Icon name={iconName} size={25} color={tintColor} />;
-          },
-        }),
-        tabBarOptions: {
-          activeTintColor: 'tomato',
-          inactiveTintColor: 'gray',
-        },
-      }
-    );
+    return(<RootNavigator />);
   }
 }
 
