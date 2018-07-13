@@ -11,8 +11,30 @@ const theme = StyleSheet.create({
     color: '#1a1a1a',
     fontSize: 30,
     fontWeight: 'bold',
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
+  text2: {
+    color: '#1a1a1a',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  input: {
+    borderStyle: 'solid',
+    borderColor: '#ced4da',
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+  inputIcon: {
+    borderStyle: 'solid',
+    borderColor: '#ced4da',
+    borderWidth: 1,
+    borderRadius: 5,
+    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
+    paddingHorizontal: 5,
+  },
 });
 
 export default theme;
