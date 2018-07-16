@@ -1,4 +1,4 @@
-package com.eiei;
+package com.cashnow;
 
 import android.app.Application;
 
