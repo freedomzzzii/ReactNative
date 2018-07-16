@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, AsyncStorage } from 'react-native';
 import Swiper from 'react-native-swiper';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import tutorial from './TutorialStyle';
 import theme from '../../../_theme';
 
 import { Layout1 } from '../../component/Layout/Layout';
 import { InputIcon } from '../../helpers/Input/Input';
+import Button from '../../helpers/Button/Button';
+import { getItem, setItem } from '../../helpers/Storage/Storage';
 
 const Tutorial1 = () => (
   <Layout1>
@@ -70,7 +71,20 @@ const Tutorial4 = () => (
   </Layout1>
 );
 
-class Login extends Component {
+export class Login extends Component {
+  handleLogin = async () => {
+    try {
+      const firstTime = await getItem('firstTime');
+      if (!firstTime) {
+        await setItem('firstTime', 'firstTime');
+      }
+      await setItem('isLogin', 'isLogin');
+    } catch(error) {
+      await setItem('firstTime', 'firstTime');
+      await setItem('isLogin', 'isLogin');
+    }
+  }
+
   render() {
     const settingsIDCard = {
       iconName: 'ios-person',
@@ -96,6 +110,9 @@ class Login extends Component {
           <View style={tutorial.input}>
             <InputIcon settings={settingsPhone} />
           </View>
+          <View style={tutorial.button}>
+            <Button color="green" text="ยืนยัน" handleClick={this.handleLogin} />
+          </View>
         </View>
       </Layout1>
     );
@@ -106,12 +123,11 @@ export default class Tutorial extends Component {
   render() {
     return(
       <Swiper showsButtons={false} loop={false}>
-      <Login />
         <Tutorial1 />
         <Tutorial2 />
         <Tutorial3 />
         <Tutorial4 />
-        {/* <Login /> */}
+        <Login />
       </Swiper>
     );
   }

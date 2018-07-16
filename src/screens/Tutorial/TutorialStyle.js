@@ -24,6 +24,11 @@ const tutorial = StyleSheet.create({
     marginTop: 15,
     flex: 1,
   },
+  button: {
+    flex: 1,
+    width: '40%',
+    marginTop: 25,
+  },
 });
 
 export default tutorial;
