@@ -11,10 +11,10 @@ export default class Button extends Component {
   }
 
   render() {
-    const { color, text } = this.props;
+    const { color, text, handleClick } = this.props;
 
     return(
-      <TouchableOpacity style={button[color]}>
+      <TouchableOpacity style={button[color]} onPress={handleClick}>
         <Text style={button[`t${color}`]}>{text}</Text>
       </TouchableOpacity>
     );
@@ -24,4 +24,5 @@ export default class Button extends Component {
 Button.propTypes = {
   color: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
