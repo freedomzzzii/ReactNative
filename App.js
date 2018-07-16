@@ -3,7 +3,8 @@ import { Button, Text, View, AsyncStorage, AppState } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { StackNavigator, createBottomTabNavigator } from 'react-navigation';
 
-import Tutorial from './src/screens/Tutorial/Tutorial';
+import Tutorial, { Login } from './src/screens/Tutorial/Tutorial';
+import { getItem } from './src/helpers/Storage/Storage';
 
 class HomeScreen extends Component {
   render() {
@@ -70,6 +71,7 @@ const RootNavigator = createBottomTabNavigator(
   {
     Home: { screen: HomeStack },
     Settings: { screen: SettingsStack },
+    Tutorial,
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -96,13 +98,24 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstTime: true,
+      firstTime: false,
       appState: AppState.currentState,
+      isLogin: false,
     };
   }
 
+  async componentWillMount() {
+    try {
+      const firstTime = await getItem('firstTime');
+      const isLogin = await getItem('isLogin');
+      
+      this.setState({ firstTime, isLogin });
+    } catch (error) {
+      this.setState({ firstTime: true });
+    }
+  }
+
   componentDidMount() {
-    this.setState({ firstTime: this.handleFirstTime() });
     AppState.addEventListener('change', this._handleAppStateChange);
   }
 
@@ -114,19 +127,16 @@ class App extends Component {
     if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
       console.log('App has come to the foreground!')
     }
-    this.setState({appState: nextAppState});
-  }
-
-  handleFirstTime = async () => {
-    return await AsyncStorage.getItem('fistTime');
+    this.setState({ appState: nextAppState });
   }
 
   render() {
-    const { firstTime } = this.state;
-    console.log('firstTime>>>', firstTime);
-    console.log('appState>>>', this.state.appState)
+    const { firstTime, isLogin } = this.state;
+    console.log('appState>>>', this.state.appState);
     if (!firstTime) {
       return(<Tutorial />);
+    } else if (!isLogin) {
+      return(<Login />);
     }
 
     return(<RootNavigator />);
